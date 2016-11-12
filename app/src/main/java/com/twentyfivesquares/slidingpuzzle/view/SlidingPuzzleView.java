@@ -40,14 +40,13 @@ public class SlidingPuzzleView extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int spec = MeasureSpec.makeMeasureSpec(100, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        final int spec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() / 3, MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
             child.measure(spec, spec);
         }
-
-        final int parentSpec = MeasureSpec.makeMeasureSpec(300, MeasureSpec.EXACTLY);
-        super.onMeasure(parentSpec, parentSpec);
     }
 
     @Override

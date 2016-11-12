@@ -36,9 +36,9 @@ public class SlidingPuzzleView extends ViewGroup {
 
     private void init(Context context) {
         for (int i = 0; i < 8; i++) {
-            final PuzzlePiece puzzlePiece = new PuzzlePiece(context);
-            puzzlePiece.setText(Integer.toString(i + 1));
-            addView(puzzlePiece);
+            final TileView tileView = new TileView(context);
+            tileView.setText(Integer.toString(i + 1));
+            addView(tileView);
         }
     }
 
@@ -70,8 +70,8 @@ public class SlidingPuzzleView extends ViewGroup {
         }
     }
 
-    public class PuzzlePiece extends TextView {
-        public PuzzlePiece(Context context) {
+    public class TileView extends TextView {
+        public TileView(Context context) {
             super(context);
             setGravity(Gravity.CENTER);
             // Set text appearance

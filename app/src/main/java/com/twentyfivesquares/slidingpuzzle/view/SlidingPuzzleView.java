@@ -4,8 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.twentyfivesquares.slidingpuzzle.R;
 
@@ -33,8 +35,10 @@ public class SlidingPuzzleView extends ViewGroup {
     }
 
     private void init(Context context) {
-        for (int i = 0; i < 9; i++) {
-            addView(new View(context));
+        for (int i = 0; i < 8; i++) {
+            final PuzzlePiece puzzlePiece = new PuzzlePiece(context);
+            puzzlePiece.setText(Integer.toString(i + 1));
+            addView(puzzlePiece);
         }
     }
 
@@ -55,8 +59,7 @@ public class SlidingPuzzleView extends ViewGroup {
         int left = 0;
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
-            child.setBackgroundResource(R.color.colorAccent);
-            child.setAlpha(1.0f - (i * 0.1f));
+            child.setBackgroundResource(i % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
 
             if (i != 0 && i % 3 == 0) {
                 top += child.getMeasuredHeight();
@@ -64,6 +67,19 @@ public class SlidingPuzzleView extends ViewGroup {
             }
             child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
             left += child.getMeasuredWidth();
+        }
+    }
+
+    public class PuzzlePiece extends TextView {
+        public PuzzlePiece(Context context) {
+            super(context);
+            setGravity(Gravity.CENTER);
+            // Set text appearance
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setTextAppearance(R.style.AppTheme_TextAppearance_PuzzlePiece);
+            } else {
+                setTextAppearance(context, R.style.AppTheme_TextAppearance_PuzzlePiece);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class PuzzleStoreTest {
 
     @Test
     public void test_canMove() {
-        PuzzleStore puzzleStore = new PuzzleStore(3, new PuzzlePoint(2, 2));
+        PuzzleStore puzzleStore = new PuzzleStore(3);
         assertTrue(puzzleStore.canMove(new PuzzlePoint(1, 2)));
 
         puzzleStore = new PuzzleStore(3, new PuzzlePoint(0, 0));
@@ -27,7 +27,7 @@ public class PuzzleStoreTest {
 
     @Test
     public void test_cannotMove() {
-        PuzzleStore puzzleStore = new PuzzleStore(3, new PuzzlePoint(2, 2));
+        PuzzleStore puzzleStore = new PuzzleStore(3);
         assertFalse(puzzleStore.canMove(new PuzzlePoint(0, 0)));
 
         puzzleStore = new PuzzleStore(3, new PuzzlePoint(0, 0));
@@ -36,7 +36,7 @@ public class PuzzleStoreTest {
 
     @Test
     public void test_move() {
-        PuzzleStore puzzleStore = new PuzzleStore(3, new PuzzlePoint(2, 2));
+        PuzzleStore puzzleStore = new PuzzleStore(3);
         // Testing move that won't work
         assertFalse(puzzleStore.move(new PuzzlePoint(0, 0)));
 
@@ -48,7 +48,7 @@ public class PuzzleStoreTest {
 
     @Test
     public void test_checkDefaultPuzzleSolved() {
-        PuzzleStore puzzleStore = new PuzzleStore(3, new PuzzlePoint(2, 2));
+        PuzzleStore puzzleStore = new PuzzleStore(3);
         assertTrue(puzzleStore.checkSolved());
     }
 

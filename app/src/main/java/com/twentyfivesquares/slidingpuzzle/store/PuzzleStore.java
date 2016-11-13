@@ -8,12 +8,17 @@ import java.util.Map;
 public class PuzzleStore {
 
     private static final int EMPTY = -1;
-
+    
     private int height;
     private int width;
     private PuzzlePoint emptyPoint;
 
     private Map<PuzzlePoint, Integer> puzzleMap;
+
+    public PuzzleStore(int side) {
+        // Create a puzzle with the last spot empty
+        this(side, new PuzzlePoint(side - 1, side - 1));
+    }
 
     public PuzzleStore(int side, PuzzlePoint emptyPoint) {
         this(side, side, emptyPoint);

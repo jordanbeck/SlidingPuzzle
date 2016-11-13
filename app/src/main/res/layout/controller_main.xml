@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/generic_medium">
 
-    <com.twentyfivesquares.slidingpuzzle.view.SlidingPuzzleView
+    <com.twentyfivesquares.slidingpuzzle.view.PuzzleView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -19,29 +19,29 @@ import com.twentyfivesquares.slidingpuzzle.store.PuzzleStore;
 
 import java.util.Map;
 
-public class SlidingPuzzleView extends ViewGroup {
+public class PuzzleView extends ViewGroup {
 
     private final int SIZE = 3;
 
     private PuzzleStore store;
 
-    public SlidingPuzzleView(Context context) {
+    public PuzzleView(Context context) {
         super(context);
         init(context);
     }
 
-    public SlidingPuzzleView(Context context, AttributeSet attrs) {
+    public PuzzleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SlidingPuzzleView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SlidingPuzzleView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }

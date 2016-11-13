@@ -9,7 +9,7 @@ import java.util.Stack;
 
 public class PuzzleStore {
 
-    private static final int EMPTY = -1;
+    public static final int EMPTY = -1;
 
     private int size;
     private PuzzlePoint emptyPoint;

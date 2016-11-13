@@ -7,11 +7,20 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.twentyfivesquares.slidingpuzzle.R;
+import com.twentyfivesquares.slidingpuzzle.object.PuzzlePoint;
+import com.twentyfivesquares.slidingpuzzle.store.PuzzleStore;
+
+import java.util.Map;
 
 public class SlidingPuzzleView extends ViewGroup {
+
+    private final int SIZE = 3;
+
+    private PuzzleStore store;
 
     public SlidingPuzzleView(Context context) {
         super(context);
@@ -35,10 +44,22 @@ public class SlidingPuzzleView extends ViewGroup {
     }
 
     private void init(Context context) {
-        for (int i = 0; i < 8; i++) {
-            final TileView tileView = new TileView(context);
-            tileView.setText(Integer.toString(i + 1));
-            addView(tileView);
+        store = new PuzzleStore(SIZE);
+        store.shufflePuzzle(10);
+
+        final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                final Integer label = puzzleMap.get(new PuzzlePoint(x, y));
+                if (label == PuzzleStore.EMPTY) {
+                    addView(new EmptyView(context));
+                } else {
+                    final TileView tileView = new TileView(context);
+                    tileView.setLabel(label);
+                    tileView.setBackgroundResource(label % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
+                    addView(tileView);
+                }
+            }
         }
     }
 
@@ -59,8 +80,6 @@ public class SlidingPuzzleView extends ViewGroup {
         int left = 0;
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
-            child.setBackgroundResource(i % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
-
             if (i != 0 && i % 3 == 0) {
                 top += child.getMeasuredHeight();
                 left = 0;
@@ -81,5 +100,17 @@ public class SlidingPuzzleView extends ViewGroup {
                 setTextAppearance(context, R.style.AppTheme_TextAppearance_PuzzlePiece);
             }
         }
+
+        public void setLabel(Integer label) {
+            setText(label.toString());
+        }
     }
+
+    public class EmptyView extends FrameLayout {
+        public EmptyView(Context context) {
+            super(context);
+            setVisibility(INVISIBLE);
+        }
+    }
+
 }

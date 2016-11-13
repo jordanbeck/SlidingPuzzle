@@ -56,7 +56,6 @@ public class PuzzleStoreTest {
     @Test
     public void test_defaultPuzzleSolved() {
         PuzzleStore puzzleStore = new PuzzleStore(3);
-        debug_printPuzzle(puzzleStore, 3);
         assertTrue(puzzleStore.isSolved());
     }
 
@@ -137,9 +136,6 @@ public class PuzzleStoreTest {
         // Make sure the puzzle is not already solved
         assertFalse(puzzleStore.isSolved());
 
-        debug_printPuzzle(puzzleStore, 3);
-        debug_printSolution(puzzleStore);
-
         // Find a move that will be added to the solution
         final PuzzlePoint empty = puzzleStore.getEmptyPoint();
         boolean hasMoved = false;
@@ -149,9 +145,6 @@ public class PuzzleStoreTest {
             hasMoved = !puzzleStore.getSolution().peek().equals(movablePoint) && puzzleStore.move(movablePoint);
         }
 
-        debug_printPuzzle(puzzleStore, 3);
-        debug_printSolution(puzzleStore);
-
         final int moves = puzzleStore.getSolution().size() - 1;
         for (int i = moves; i >= 0; i--) {
             PuzzlePoint puzzlePoint = puzzleStore.getSolution().peek();
@@ -160,15 +153,11 @@ public class PuzzleStoreTest {
             assertTrue(moved);
 
             if (i != 0) {
-                debug_printPuzzle(puzzleStore, 3);
-                debug_printSolution(puzzleStore);
                 assertFalse(puzzleStore.isSolved());
             }
         }
 
         // After all moves, the puzzle should be solved
-        debug_printPuzzle(puzzleStore, 3);
-        debug_printSolution(puzzleStore);
         assertTrue(puzzleStore.isSolved());
     }
 

@@ -1,5 +1,7 @@
 package com.twentyfivesquares.slidingpuzzle.view;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -7,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -50,13 +53,20 @@ public class SlidingPuzzleView extends ViewGroup {
         final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
-                final Integer label = puzzleMap.get(new PuzzlePoint(x, y));
+                final PuzzlePoint position = new PuzzlePoint(x, y);
+                final Integer label = puzzleMap.get(position);
                 if (label == PuzzleStore.EMPTY) {
                     addView(new EmptyView(context));
                 } else {
-                    final TileView tileView = new TileView(context);
+                    final TileView tileView = new TileView(context, position);
                     tileView.setLabel(label);
                     tileView.setBackgroundResource(label % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
+                    tileView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            moveTile((TileView) view);
+                        }
+                    });
                     addView(tileView);
                 }
             }
@@ -89,9 +99,26 @@ public class SlidingPuzzleView extends ViewGroup {
         }
     }
 
+    private void moveTile(TileView tileView) {
+        if (!store.canMove(tileView.position)) {
+            // Make the object width 50%
+            ObjectAnimator animX = ObjectAnimator.ofFloat(tileView, "scaleX", 0.95f, 1.0f);
+            ObjectAnimator animY = ObjectAnimator.ofFloat(tileView, "scaleY", 0.95f, 1.0f);
+            AnimatorSet set = new AnimatorSet();
+            set.setInterpolator(new BounceInterpolator());
+            set.playTogether(animX, animY);
+            set.start();
+        }
+    }
+
     public class TileView extends TextView {
-        public TileView(Context context) {
+        private PuzzlePoint position;
+        private Integer label;
+
+        public TileView(Context context, PuzzlePoint position) {
             super(context);
+            this.position = position;
+
             setGravity(Gravity.CENTER);
             // Set text appearance
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -101,8 +128,21 @@ public class SlidingPuzzleView extends ViewGroup {
             }
         }
 
+        public Integer getLabel() {
+            return label;
+        }
+
         public void setLabel(Integer label) {
+            this.label = label;
             setText(label.toString());
+        }
+
+        public PuzzlePoint getPosition() {
+            return position;
+        }
+
+        public void setPosition(PuzzlePoint position) {
+            this.position = position;
         }
     }
 

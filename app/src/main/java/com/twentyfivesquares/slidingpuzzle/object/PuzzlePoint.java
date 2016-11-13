@@ -5,6 +5,10 @@ public class PuzzlePoint {
     public int x;
     public int y;
 
+    public PuzzlePoint(PuzzlePoint other) {
+        this(other.x, other.y);
+    }
+
     public PuzzlePoint(int x, int y) {
         this.x = x;
         this.y = y;

@@ -24,6 +24,23 @@ public class PuzzleStoreTest {
     }
 
     @Test
+    public void test_pointRelativeTo() {
+        PuzzlePoint p1 = new PuzzlePoint(0, 0);
+        PuzzlePoint p2 = new PuzzlePoint(1, 0);
+        assertEquals(PuzzlePoint.Direction.RIGHT, p1.relativeTo(p2));
+        assertEquals(PuzzlePoint.Direction.LEFT, p2.relativeTo(p1));
+
+        p1 = new PuzzlePoint(0, 0);
+        p2 = new PuzzlePoint(0, 1);
+        assertEquals(PuzzlePoint.Direction.BELOW, p1.relativeTo(p2));
+        assertEquals(PuzzlePoint.Direction.ABOVE, p2.relativeTo(p1));
+
+        p1 = new PuzzlePoint(0, 0);
+        p2 = new PuzzlePoint(0, 2);
+        assertEquals(PuzzlePoint.Direction.NONE, p1.relativeTo(p2));
+    }
+
+    @Test
     public void test_canMove() {
         PuzzleStore puzzleStore = new PuzzleStore(3, new PuzzlePoint(2, 2));
         assertTrue(puzzleStore.canMove(new PuzzlePoint(1, 2)));

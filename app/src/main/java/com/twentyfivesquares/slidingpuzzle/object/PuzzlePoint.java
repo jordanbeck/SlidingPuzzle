@@ -15,10 +15,8 @@ public class PuzzlePoint {
     }
 
     public boolean adjacentTo(PuzzlePoint other) {
-        return other.x - 1 == x ||
-                other.x + 1 == x ||
-                other.y - 1 == y ||
-                other.y + 1 == y;
+        return other.y == y && (other.x - 1 == x || other.x + 1 == x) ||
+                other.x == x && (other.y - 1 == y || other.y + 1 == y);
     }
 
     @Override

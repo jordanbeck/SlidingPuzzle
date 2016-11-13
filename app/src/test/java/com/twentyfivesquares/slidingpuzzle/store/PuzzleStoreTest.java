@@ -39,6 +39,10 @@ public class PuzzleStoreTest {
 
         puzzleStore = new PuzzleStore(3, new PuzzlePoint(0, 0));
         assertFalse(puzzleStore.canMove(new PuzzlePoint(2, 2)));
+
+        // Test if the empty is in the middle and the corner is selected
+        puzzleStore = new PuzzleStore(3, new PuzzlePoint(1, 1));
+        assertFalse(puzzleStore.canMove(new PuzzlePoint(2, 2)));
     }
 
     @Test

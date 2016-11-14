@@ -11,10 +11,12 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twentyfivesquares.slidingpuzzle.R;
 import com.twentyfivesquares.slidingpuzzle.object.PuzzlePoint;
@@ -24,9 +26,14 @@ import java.util.Map;
 
 public class PuzzleView extends ViewGroup {
 
+    public interface PuzzleViewListener {
+        void onSolved();
+    }
+
     private final int SIZE = 3;
 
     private PuzzleStore store;
+    private PuzzleViewListener listener;
     private boolean locked;
 
     public PuzzleView(Context context) {
@@ -54,7 +61,7 @@ public class PuzzleView extends ViewGroup {
         locked = false;
 
         store = new PuzzleStore(SIZE);
-        store.shufflePuzzle(10);
+        store.shufflePuzzle(1);
 
         final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
         for (int y = 0; y < SIZE; y++) {
@@ -103,6 +110,10 @@ public class PuzzleView extends ViewGroup {
             child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
             left += child.getMeasuredWidth();
         }
+    }
+
+    public void setPuzzleListener(PuzzleViewListener listener) {
+        this.listener = listener;
     }
 
     private void moveTile(TileView tileView) {
@@ -156,33 +167,21 @@ public class PuzzleView extends ViewGroup {
     }
 
     private void animateTileX(final TileView tileView, float translation) {
-        tileView.animate()
-                .setDuration(250)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .translationX(translation)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                        locked = false;
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        // Execute the move to update the puzzle
-                        final PuzzlePoint oldEmptyPoint = store.getEmptyPoint();
-                        store.move(tileView.position);
-                        tileView.position = oldEmptyPoint;
-                        locked = false;
-                    }
-                })
-                .start();
+        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView);
+        moveAnimator.translationX(translation);
+        moveAnimator.start();
     }
 
     private void animateTileY(final TileView tileView, float translation) {
-        tileView.animate()
+        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView);
+        moveAnimator.translationY(translation);
+        moveAnimator.start();
+    }
+
+    private ViewPropertyAnimator buildMoveAnimator(final TileView tileView) {
+        return tileView.animate()
                 .setDuration(250)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .translationY(translation)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationCancel(Animator animation) {
@@ -191,17 +190,29 @@ public class PuzzleView extends ViewGroup {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        // Execute the move to update the puzzle
-                        final PuzzlePoint oldEmptyPoint = store.getEmptyPoint();
-                        store.move(tileView.position);
-                        tileView.setPosition(oldEmptyPoint);
                         locked = false;
+                        moveCompleted(tileView);
                     }
-                })
-                .start();
+                });
     }
 
-    public class TileView extends TextView {
+    private void moveCompleted(TileView tileView) {
+        // Execute the move to update the puzzle
+        final PuzzlePoint oldEmptyPoint = store.getEmptyPoint();
+        store.move(tileView.position);
+        tileView.setPosition(oldEmptyPoint);
+
+        if (store.isSolved()) {
+            // Re-lock the board
+            locked = true;
+            // Inform listener that the puzzle has been solved
+            if (listener != null) {
+                listener.onSolved();
+            }
+        }
+    }
+
+    protected class TileView extends TextView {
         private PuzzlePoint position;
         private Integer label;
 
@@ -236,11 +247,10 @@ public class PuzzleView extends ViewGroup {
         }
     }
 
-    public class EmptyView extends FrameLayout {
+    protected class EmptyView extends FrameLayout {
         public EmptyView(Context context) {
             super(context);
             setVisibility(INVISIBLE);
         }
     }
-
 }

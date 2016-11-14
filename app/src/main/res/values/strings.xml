@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sliding Puzzle</string>
+    <string name="msg_congratulations">Congratulations!</string>
 </resources>

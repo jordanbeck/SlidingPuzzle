@@ -14,6 +14,8 @@ import butterknife.ButterKnife;
 
 public class PuzzleController extends TinyController {
 
+    public static final int DEFAULT_SIZE = 3;
+
     @Bind(R.id.puzzle_puzzle) PuzzleView vPuzzle;
     @Bind(R.id.puzzle_hint_button) Button vHintButton;
     @Bind(R.id.puzzle_solve_button) Button vSolveButton;
@@ -53,5 +55,9 @@ public class PuzzleController extends TinyController {
     @Override
     protected int getLayoutRes() {
         return R.layout.controller_puzzle;
+    }
+
+    public void setPuzzleSize(int puzzleSize) {
+        vPuzzle.updateSize(puzzleSize);
     }
 }

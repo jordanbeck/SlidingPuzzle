@@ -34,11 +34,12 @@ public class PuzzleView extends ViewGroup {
         void onMoveFinished();
     }
 
-    private final int SIZE = 4;
+    private final int DEFAULT_SIZE = 4;
     private final int ANIM_DURATION = 250;
     private final int ANIM_DURATION_SLOW = 350;
     private final int ANIM_PAUSE = 350;
 
+    private int size = DEFAULT_SIZE;
     private PuzzleStore store;
     private PuzzleViewListener listener;
     private boolean locked;
@@ -46,35 +47,31 @@ public class PuzzleView extends ViewGroup {
 
     public PuzzleView(Context context) {
         super(context);
-        init(context);
     }
 
     public PuzzleView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public PuzzleView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
     }
 
     private void init(Context context) {
         locked = false;
         solving = false;
 
-        store = new PuzzleStore(SIZE);
-        store.shufflePuzzle(10);
+        store = new PuzzleStore(size);
+        store.shufflePuzzle(size * size);
 
         final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
-        for (int y = 0; y < SIZE; y++) {
-            for (int x = 0; x < SIZE; x++) {
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
                 final PuzzlePoint position = new PuzzlePoint(x, y);
                 final Integer label = puzzleMap.get(position);
                 if (label == PuzzleStore.EMPTY) {
@@ -98,7 +95,7 @@ public class PuzzleView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int width = MeasureSpec.getSize(widthMeasureSpec);
-        final int childSpec = MeasureSpec.makeMeasureSpec(width / SIZE, MeasureSpec.EXACTLY);
+        final int childSpec = MeasureSpec.makeMeasureSpec(width / size, MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
             child.measure(childSpec, childSpec);
@@ -113,15 +110,21 @@ public class PuzzleView extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int top = 0;
         int left = 0;
-        for (int i = 0, size = getChildCount(); i < size; i++) {
+        for (int i = 0, count = getChildCount(); i < count; i++) {
             View child = getChildAt(i);
-            if (i != 0 && i % SIZE == 0) {
+            if (i != 0 && i % size == 0) {
                 top += child.getMeasuredHeight();
                 left = 0;
             }
             child.layout(left, top, left + child.getMeasuredWidth(), top + child.getMeasuredHeight());
             left += child.getMeasuredWidth();
         }
+    }
+
+    public void updateSize(int size) {
+        this.size = size;
+        init(getContext());
+        invalidate();
     }
 
     public void setPuzzleListener(PuzzleViewListener listener) {

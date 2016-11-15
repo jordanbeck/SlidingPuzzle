@@ -16,6 +16,7 @@ public class MainController extends TinyController {
 
     @Bind(R.id.main_puzzle) PuzzleView vPuzzle;
     @Bind(R.id.main_hint_button) Button vHintButton;
+    @Bind(R.id.main_solve_button) Button vSolveButton;
     @Bind(R.id.main_move_count) TextView vMoveCount;
 
     public MainController(Context context) {
@@ -27,6 +28,12 @@ public class MainController extends TinyController {
             @Override
             public void onClick(View view) {
                 vPuzzle.showHint();
+            }
+        });
+        vSolveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vPuzzle.solve();
             }
         });
 

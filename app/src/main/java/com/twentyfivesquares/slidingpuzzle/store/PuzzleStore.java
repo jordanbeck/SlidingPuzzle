@@ -59,6 +59,10 @@ public class PuzzleStore {
         return solution;
     }
 
+    public PuzzlePoint getSolutionNextPoint() {
+        return solution == null || solution.size() == 0 ? null : solution.peek();
+    }
+
     public Map<PuzzlePoint, Integer> getPuzzleMap() {
         return puzzleMap;
     }

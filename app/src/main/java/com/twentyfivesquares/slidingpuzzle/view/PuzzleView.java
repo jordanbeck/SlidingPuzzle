@@ -30,11 +30,19 @@ public class PuzzleView extends ViewGroup {
         void onSolved();
     }
 
+    private interface MoveAnimationFinishedListener {
+        void onMoveFinished();
+    }
+
     private final int SIZE = 3;
+    private final int ANIM_DURATION = 250;
+    private final int ANIM_DURATION_SLOW = 350;
+    private final int ANIM_PAUSE = 350;
 
     private PuzzleStore store;
     private PuzzleViewListener listener;
     private boolean locked;
+    private boolean solving;
 
     public PuzzleView(Context context) {
         super(context);
@@ -59,9 +67,10 @@ public class PuzzleView extends ViewGroup {
 
     private void init(Context context) {
         locked = false;
+        solving = false;
 
         store = new PuzzleStore(SIZE);
-        store.shufflePuzzle(1);
+        store.shufflePuzzle(2);
 
         final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
         for (int y = 0; y < SIZE; y++) {
@@ -120,24 +129,64 @@ public class PuzzleView extends ViewGroup {
     }
 
     public void showHint() {
-        final PuzzlePoint hintPoint = store.getSolution().peek();
+        final PuzzlePoint hintPoint = store.getSolutionNextPoint();
+        final TileView tileView = findTile(hintPoint);
+        ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(tileView, "alpha", 0.5f, 1.0f);
+        alphaAnim.setDuration(ANIM_PAUSE);
+        alphaAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        alphaAnim.start();
+    }
 
+    public void solve() {
+        if (solving) {
+            return;
+        }
+
+        solving = true;
+        nextMove();
+    }
+
+    private void nextMove() {
+        final PuzzlePoint nextPoint = store.getSolutionNextPoint();
+        final TileView tileView = findTile(nextPoint);
+        moveTile(tileView, new MoveAnimationFinishedListener() {
+            @Override
+            public void onMoveFinished() {
+                if (store.isSolved()) {
+                    solving = false;
+                } else {
+                    try {
+                        // Add a slight pause
+                        Thread.sleep(350);
+                        nextMove();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private TileView findTile(PuzzlePoint puzzlePoint) {
         // TODO: Come up with better way to get PuzzleView based off of PuzzlePoint
         for (int i = 0, size = getChildCount(); i < size; i++) {
             final View child = getChildAt(i);
             if (child instanceof TileView) {
                 final TileView tileView = (TileView) child;
-                if (tileView.getPosition().equals(hintPoint)) {
-                    ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(tileView, "alpha", 0.5f, 1.0f);
-                    alphaAnim.setDuration(350);
-                    alphaAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-                    alphaAnim.start();
+                if (tileView.getPosition().equals(puzzlePoint)) {
+                    return tileView;
                 }
             }
         }
+
+        return null;
     }
 
     private void moveTile(TileView tileView) {
+        moveTile(tileView, null);
+    }
+
+    private void moveTile(TileView tileView, MoveAnimationFinishedListener listener) {
         if (locked) {
             return;
         }
@@ -173,35 +222,35 @@ public class PuzzleView extends ViewGroup {
         final float ty = tileView.getTranslationY();
         switch (direction) {
             case LEFT:
-                animateTileX(tileView, tx - tileView.getMeasuredWidth());
+                animateTileX(tileView, tx - tileView.getMeasuredWidth(), listener);
                 break;
             case RIGHT:
-                animateTileX(tileView, tx + tileView.getMeasuredWidth());
+                animateTileX(tileView, tx + tileView.getMeasuredWidth(), listener);
                 break;
             case ABOVE:
-                animateTileY(tileView, ty - tileView.getMeasuredHeight());
+                animateTileY(tileView, ty - tileView.getMeasuredHeight(), listener);
                 break;
             case BELOW:
-                animateTileY(tileView, ty + tileView.getMeasuredHeight());
+                animateTileY(tileView, ty + tileView.getMeasuredHeight(), listener);
                 break;
         }
     }
 
-    private void animateTileX(final TileView tileView, float translation) {
-        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView);
+    private void animateTileX(final TileView tileView, float translation, MoveAnimationFinishedListener listener) {
+        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView, listener);
         moveAnimator.translationX(translation);
         moveAnimator.start();
     }
 
-    private void animateTileY(final TileView tileView, float translation) {
-        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView);
+    private void animateTileY(final TileView tileView, float translation, MoveAnimationFinishedListener listener) {
+        ViewPropertyAnimator moveAnimator = buildMoveAnimator(tileView, listener);
         moveAnimator.translationY(translation);
         moveAnimator.start();
     }
 
-    private ViewPropertyAnimator buildMoveAnimator(final TileView tileView) {
+    private ViewPropertyAnimator buildMoveAnimator(final TileView tileView, final MoveAnimationFinishedListener listener) {
         return tileView.animate()
-                .setDuration(250)
+                .setDuration(solving ? ANIM_DURATION_SLOW : ANIM_DURATION)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -213,6 +262,7 @@ public class PuzzleView extends ViewGroup {
                     public void onAnimationEnd(Animator animation) {
                         locked = false;
                         moveCompleted(tileView);
+                        listener.onMoveFinished();
                     }
                 });
     }

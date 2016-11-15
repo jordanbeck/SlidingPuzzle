@@ -4,12 +4,29 @@
     android:layout_height="match_parent"
     android:padding="@dimen/generic_medium">
 
-    <Button
-        android:id="@+id/main_hint_button"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/generic_medium"
-        android:text="@string/button_hint" />
+        android:layout_marginBottom="@dimen/generic_medium">
+
+        <Button
+            android:id="@+id/main_hint_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_marginRight="@dimen/generic_small"
+            android:text="@string/button_hint" />
+
+        <Button
+            android:id="@+id/main_solve_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="@dimen/generic_small"
+            android:text="@string/button_solve" />
+
+    </LinearLayout>
 
     <com.twentyfivesquares.slidingpuzzle.view.PuzzleView
         android:id="@+id/main_puzzle"

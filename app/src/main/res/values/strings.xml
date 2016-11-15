@@ -6,4 +6,5 @@
     <string name="msg_move_count_default">No moves</string>
     <!-- Buttons -->
     <string name="button_hint">Hint</string>
+    <string name="button_solve">I give up!</string>
 </resources>

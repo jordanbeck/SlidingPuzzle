@@ -12,14 +12,14 @@ import com.twentyfivesquares.slidingpuzzle.view.PuzzleView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainController extends TinyController {
+public class PuzzleController extends TinyController {
 
     @Bind(R.id.main_puzzle) PuzzleView vPuzzle;
     @Bind(R.id.main_hint_button) Button vHintButton;
     @Bind(R.id.main_solve_button) Button vSolveButton;
     @Bind(R.id.main_move_count) TextView vMoveCount;
 
-    public MainController(Context context) {
+    public PuzzleController(Context context) {
         super(context);
         ButterKnife.bind(this, getView());
 

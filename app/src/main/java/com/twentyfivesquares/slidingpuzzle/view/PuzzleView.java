@@ -34,7 +34,7 @@ public class PuzzleView extends ViewGroup {
         void onMoveFinished();
     }
 
-    private final int SIZE = 5;
+    private final int SIZE = 4;
     private final int ANIM_DURATION = 250;
     private final int ANIM_DURATION_SLOW = 350;
     private final int ANIM_PAUSE = 350;
@@ -70,7 +70,7 @@ public class PuzzleView extends ViewGroup {
         solving = false;
 
         store = new PuzzleStore(SIZE);
-        store.shufflePuzzle(2);
+        store.shufflePuzzle(10);
 
         final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
         for (int y = 0; y < SIZE; y++) {
@@ -262,7 +262,9 @@ public class PuzzleView extends ViewGroup {
                     public void onAnimationEnd(Animator animation) {
                         locked = false;
                         moveCompleted(tileView);
-                        listener.onMoveFinished();
+                        if (listener != null) {
+                            listener.onMoveFinished();
+                        }
                     }
                 });
     }

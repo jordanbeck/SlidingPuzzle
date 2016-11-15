@@ -4,6 +4,7 @@
     <declare-styleable name="SelectPuzzle">
         <attr name="selectPuzzleSize" format="integer"/>
         <attr name="selectPuzzleDifficulty" format="string"/>
+        <attr name="selectPuzzleIcon" format="reference"/>
         <attr name="selectPuzzleBackground" format="color"/>
     </declare-styleable>
 

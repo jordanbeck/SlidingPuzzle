@@ -2,18 +2,17 @@ package com.twentyfivesquares.slidingpuzzle.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twentyfivesquares.slidingpuzzle.R;
 import com.twentyfivesquares.slidingpuzzle.object.Record;
 import com.twentyfivesquares.slidingpuzzle.util.DateUtils;
-
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +21,7 @@ public class SelectPuzzleView extends FrameLayout {
 
     @Bind(R.id.select_puzzle_size) TextView vSize;
     @Bind(R.id.select_puzzle_difficulty) TextView vDifficulty;
+    @Bind(R.id.select_puzzle_icon) ImageView vIcon;
     @Bind(R.id.select_puzzle_total_wins) TextView vTotalWins;
     @Bind(R.id.select_puzzle_best_moves) TextView vBestMoves;
     @Bind(R.id.select_puzzle_best_time) TextView vBestTime;
@@ -52,8 +52,9 @@ public class SelectPuzzleView extends FrameLayout {
 
         // Search for size and difficulty label in attributes
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SelectPuzzle, 0, 0);
-        String difficulty = a.getString(R.styleable.SelectPuzzle_selectPuzzleDifficulty);
-        int background = a.getColor(R.styleable.SelectPuzzle_selectPuzzleBackground,
+        final String difficulty = a.getString(R.styleable.SelectPuzzle_selectPuzzleDifficulty);
+        final Drawable icon = a.getDrawable(R.styleable.SelectPuzzle_selectPuzzleIcon);
+        final int background = a.getColor(R.styleable.SelectPuzzle_selectPuzzleBackground,
                 context.getResources().getColor(R.color.colorAccent));
         size = a.getInt(R.styleable.SelectPuzzle_selectPuzzleSize, 3);
         a.recycle();
@@ -62,6 +63,7 @@ public class SelectPuzzleView extends FrameLayout {
         setBackgroundColor(background);
         vSize.setText(size + "x" + size);
         vDifficulty.setText(difficulty);
+        vIcon.setImageDrawable(icon);
     }
 
     public void setRecord(Record record) {

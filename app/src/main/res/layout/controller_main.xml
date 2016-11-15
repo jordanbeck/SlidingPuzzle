@@ -9,24 +9,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
 
         <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
             android:id="@+id/main_select_puzzle_2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1.0"
             app:selectPuzzleSize="2"
             app:selectPuzzleDifficulty="@string/label_difficulty_2"
+            app:selectPuzzleIcon="@drawable/ic_difficulty_easy_48dp"
             app:selectPuzzleBackground="@color/difficultyEasy"/>
 
         <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
             android:id="@+id/main_select_puzzle_3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1.0"
             app:selectPuzzleSize="3"
             app:selectPuzzleDifficulty="@string/label_difficulty_3"
+            app:selectPuzzleIcon="@drawable/ic_difficulty_medium_48dp"
             app:selectPuzzleBackground="@color/difficultyMedium"/>
 
     </LinearLayout>
@@ -34,24 +37,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
 
         <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
             android:id="@+id/main_select_puzzle_4"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1.0"
             app:selectPuzzleSize="4"
             app:selectPuzzleDifficulty="@string/label_difficulty_4"
+            app:selectPuzzleIcon="@drawable/ic_difficulty_hard_48dp"
             app:selectPuzzleBackground="@color/difficultyHard"/>
 
         <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
             android:id="@+id/main_select_puzzle_5"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1.0"
             app:selectPuzzleSize="5"
             app:selectPuzzleDifficulty="@string/label_difficulty_5"
+            app:selectPuzzleIcon="@drawable/ic_difficulty_insane_48dp"
             app:selectPuzzleBackground="@color/difficultyInsane"/>
 
     </LinearLayout>

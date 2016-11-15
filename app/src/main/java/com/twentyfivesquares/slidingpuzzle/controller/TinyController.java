@@ -12,22 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * This is the main class for this implementation of controllers. It's a work in progress. There
- * are three scenarios I'm trying to solve:
- *
- *  1.  The view that the controller will use is passed in to the controller. This would be
- *      useful when dealing with multiple form factors. It would be used with <include> tags
- *      in the layout files.
- *  2.  Pass in a parent view that the controller should inflate itself into. This is similar
- *      to #1 except there would be no <include> tags. It would be a simple {@link ViewGroup}
- *      instead.
- *  3.  Nothing is passed in and the controller inflates its own layout. This would be used
- *      for things like ViewPagers where all you need to is get the view and insert it.
- *
- *  I'm still not sure if we need to support all of these use-cases or just a subset.
- *
- *  UPDATE: I think the best approach right now is to go with #2. But that does make there more
- *  overhead for the ViewPager approach...
+ * This is a class that I using instead of fragments. I have a lot of plans for it, but currently
+ * they are all unfinished. For now, this is the scaled down version.
  */
 public abstract class TinyController {
 

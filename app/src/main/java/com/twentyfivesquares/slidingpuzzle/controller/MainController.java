@@ -14,8 +14,7 @@ import butterknife.ButterKnife;
 
 public class MainController extends TinyController {
 
-    // TODO: This solution is not scalable, but I'm having a hard time getting the UI I want programmatically.
-    // Switch to a RecyclerView with grid adapter.
+    // TODO: Switch to a RecyclerView with grid adapter.
     @Bind(R.id.main_select_puzzle_2) SelectPuzzleView vPuzzle2;
     @Bind(R.id.main_select_puzzle_3) SelectPuzzleView vPuzzle3;
     @Bind(R.id.main_select_puzzle_4) SelectPuzzleView vPuzzle4;

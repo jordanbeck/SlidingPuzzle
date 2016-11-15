@@ -142,6 +142,9 @@ public class PuzzleStore {
         return true;
     }
 
+    /**
+     * Reset and reshuffles the puzzle. This is all that needs to be called to start another puzzle.
+     */
     public void resetPuzzle() {
         this.emptyPoint = new PuzzlePoint(size - 1, size - 1);
         this.moveCount = 0;

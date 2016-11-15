@@ -29,7 +29,7 @@ public class PuzzleController extends TinyController {
     @Bind(R.id.puzzle_solve_button) Button vSolveButton;
     @Bind(R.id.puzzle_move_count) TextView vMoveCount;
     @Bind(R.id.puzzle_success_container) View vSuccessContainer;
-    @Bind(R.id.puzzle_success_banner) View vSuccessBanner;
+    @Bind(R.id.puzzle_success_banner_text) View vSuccessBannerText;
     @Bind(R.id.puzzle_star_far_left) View vStarFarLeft;
     @Bind(R.id.puzzle_star_close_left) View vStarCloseLeft;
     @Bind(R.id.puzzle_star_far_right) View vStarFarRight;
@@ -65,6 +65,7 @@ public class PuzzleController extends TinyController {
             }
         });
 
+        // Build the store and initialize the view with it
         store = new PuzzleStore(size);
         store.shufflePuzzle(store.getSize() * store.getSize());
         vPuzzle.initialize(store);
@@ -106,6 +107,8 @@ public class PuzzleController extends TinyController {
         vStats.setText(stats);
 
         /**
+         * Animate in the success screen.
+         *
          * Animation playlist:
          *  - Fade in the success background
          *  - Scale up the success banner (both x and y)
@@ -120,14 +123,12 @@ public class PuzzleController extends TinyController {
                 vSuccessContainer.setVisibility(View.VISIBLE);
 
                 // Make sure all of the scaling is reset
-                vSuccessBanner.setScaleX(0.0f);
-                vSuccessBanner.setScaleY(0.0f);
-
+                vSuccessBannerText.setScaleX(0.0f);
+                vSuccessBannerText.setScaleY(0.0f);
                 vStarCloseLeft.setScaleX(0.0f);
                 vStarCloseLeft.setScaleY(0.0f);
                 vStarCloseRight.setScaleX(0.0f);
                 vStarCloseRight.setScaleY(0.0f);
-
                 vStarFarLeft.setScaleX(0.0f);
                 vStarFarLeft.setScaleY(0.0f);
                 vStarFarRight.setScaleX(0.0f);
@@ -135,18 +136,22 @@ public class PuzzleController extends TinyController {
             }
         });
 
-        AnimatorSet scaleSet = buildScaleAnimation(vSuccessBanner, 1);
+        // Animation for scaling the text
+        AnimatorSet scaleSet = buildScaleAnimation(vSuccessBannerText, 1);
 
+        // Animation for scaling the stars closest to the text
         AnimatorSet scaleCloseLeftStar = buildScaleAnimation(vStarCloseLeft, 2);
         AnimatorSet scaleCloseRightStar = buildScaleAnimation(vStarCloseRight, 2);
         AnimatorSet scaleCloseStars = new AnimatorSet();
         scaleCloseStars.playTogether(scaleCloseLeftStar, scaleCloseRightStar);
 
+        // Animation for scaling the stars further from the text
         AnimatorSet scaleFarLeftStar = buildScaleAnimation(vStarFarLeft, 3);
         AnimatorSet scaleFarRightStar = buildScaleAnimation(vStarFarRight, 3);
         AnimatorSet scaleFarStars = new AnimatorSet();
         scaleFarStars.playTogether(scaleFarLeftStar, scaleFarRightStar);
 
+        // Play the entire animation
         AnimatorSet solvedAnimSet = new AnimatorSet();
         solvedAnimSet.playTogether(alphaAnimator, scaleSet, scaleCloseStars, scaleFarStars);
         solvedAnimSet.start();
@@ -156,6 +161,8 @@ public class PuzzleController extends TinyController {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0.0f, 1.0f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0.0f, 1.0f);
         AnimatorSet scaleSet = new AnimatorSet();
+        // This is used as a scaling delay as we work through the animations. If they are played
+        // sequentially, it feels too rigid. This dynamic delay helps it feel more fluid.
         scaleSet.setStartDelay(order * 150);
         scaleSet.setInterpolator(new AnticipateOvershootInterpolator());
         scaleSet.setDuration(500);

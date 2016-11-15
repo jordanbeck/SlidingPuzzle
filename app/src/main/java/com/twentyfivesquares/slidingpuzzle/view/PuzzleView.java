@@ -62,6 +62,8 @@ public class PuzzleView extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // Get the width since it will be the smaller dimension and use that to calculate the tile
+        // size and height.
         final int width = MeasureSpec.getSize(widthMeasureSpec);
         final int childSpec = MeasureSpec.makeMeasureSpec(width / store.getSize(), MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {

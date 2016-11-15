@@ -18,11 +18,6 @@ import static org.junit.Assert.assertTrue;
 
 public class PuzzleStoreTest {
 
-    @Before
-    public void before() {
-
-    }
-
     @Test
     public void test_pointRelativeTo() {
         PuzzlePoint p1 = new PuzzlePoint(0, 0);

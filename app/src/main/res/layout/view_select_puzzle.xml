@@ -68,22 +68,25 @@
             android:gravity="left">
 
             <TextView
+                android:id="@+id/select_puzzle_total_wins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/AppTheme.TextAppearance.Stat"
-                android:text="12"/>
+                android:text="0"/>
 
             <TextView
+                android:id="@+id/select_puzzle_best_moves"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/AppTheme.TextAppearance.Stat"
-                android:text="9"/>
+                android:text="--"/>
 
             <TextView
+                android:id="@+id/select_puzzle_best_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/AppTheme.TextAppearance.Stat"
-                android:text="01:27"/>
+                android:text="--:--"/>
 
         </LinearLayout>
 

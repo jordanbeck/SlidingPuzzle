@@ -13,7 +13,7 @@ public class PuzzleStore {
 
     private int size;
     private PuzzlePoint emptyPoint;
-
+    private int moveCount;
     private Map<PuzzlePoint, Integer> puzzleMap;
     private Stack<PuzzlePoint> solution;
 
@@ -36,6 +36,7 @@ public class PuzzleStore {
         this.size = size;
         this.emptyPoint = emptyPoint;
         this.solution = new Stack<>();
+        this.moveCount = 0;
         initMap();
     }
 
@@ -62,6 +63,10 @@ public class PuzzleStore {
         return puzzleMap;
     }
 
+    public int getMoveCount() {
+        return moveCount;
+    }
+
     public boolean canMove(PuzzlePoint tilePosition) {
         return tilePosition.adjacentTo(emptyPoint);
     }
@@ -71,6 +76,7 @@ public class PuzzleStore {
             return false;
         }
         processMove(tilePosition);
+        moveCount++;
         return true;
     }
 

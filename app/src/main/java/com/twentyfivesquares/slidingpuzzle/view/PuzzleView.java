@@ -116,6 +116,14 @@ public class PuzzleView extends ViewGroup {
         invalidate();
     }
 
+    public void resetPuzzle() {
+        solving = false;
+        locked = false;
+
+        removeAllViews();
+        initialize(store);
+    }
+
     public void setPuzzleListener(PuzzleViewListener listener) {
         this.listener = listener;
     }

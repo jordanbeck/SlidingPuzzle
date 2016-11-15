@@ -116,6 +116,7 @@
                 android:paddingBottom="@dimen/generic_medium"/>
 
             <Button
+                android:id="@+id/puzzle_success_reset_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_play_again"/>

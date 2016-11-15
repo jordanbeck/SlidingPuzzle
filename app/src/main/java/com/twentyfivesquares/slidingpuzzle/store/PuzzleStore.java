@@ -142,6 +142,23 @@ public class PuzzleStore {
         return true;
     }
 
+    public void resetPuzzle() {
+        this.emptyPoint = new PuzzlePoint(size - 1, size - 1);
+        this.moveCount = 0;
+        this.startTime = -1;
+        this.endTime = 0;
+
+        initMap();
+        shufflePuzzle();
+    }
+
+    /**
+     * Default shuffle which will move the tiles the square of the side times (i.e.: 3x3 = 9 moves)
+     */
+    public void shufflePuzzle() {
+        shufflePuzzle(size * size);
+    }
+
     /**
      * Mix the puzzle up a specified number of moves.
      *

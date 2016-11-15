@@ -35,6 +35,7 @@ public class PuzzleController extends TinyController {
     @Bind(R.id.puzzle_star_far_right) View vStarFarRight;
     @Bind(R.id.puzzle_star_close_right) View vStarCloseRight;
     @Bind(R.id.puzzle_success_stats) TextView vStats;
+    @Bind(R.id.puzzle_success_reset_button) Button vResetButton;
 
     private PuzzleStore store;
 
@@ -53,6 +54,14 @@ public class PuzzleController extends TinyController {
             @Override
             public void onClick(View view) {
                 vPuzzle.solve();
+            }
+        });
+        vResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                store.resetPuzzle();
+                vPuzzle.resetPuzzle();
+                hideSuccessBanner();
             }
         });
 
@@ -152,5 +161,17 @@ public class PuzzleController extends TinyController {
         scaleSet.setDuration(500);
         scaleSet.playTogether(scaleX, scaleY);
         return scaleSet;
+    }
+
+    private void hideSuccessBanner() {
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(vSuccessContainer, "alpha", 1.0f, 0.0f);
+        alphaAnimator.setDuration(250);
+        alphaAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                vSuccessContainer.setVisibility(View.GONE);
+            }
+        });
+        alphaAnimator.start();
     }
 }

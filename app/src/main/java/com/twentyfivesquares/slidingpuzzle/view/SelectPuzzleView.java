@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.twentyfivesquares.slidingpuzzle.R;
 import com.twentyfivesquares.slidingpuzzle.object.Record;
+import com.twentyfivesquares.slidingpuzzle.util.DateUtils;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -66,26 +67,10 @@ public class SelectPuzzleView extends FrameLayout {
     public void setRecord(Record record) {
         vTotalWins.setText(Integer.toString(record.totalWins));
         vBestMoves.setText(record.leastMoves == 0 ? "--" : Integer.toString(record.leastMoves));
-        vBestTime.setText(record.bestTimeMillis == 0 ? "--:--" : formatTime(record.bestTimeMillis));
+        vBestTime.setText(record.bestTimeMillis == 0 ? "--:--" : DateUtils.formatTime(record.bestTimeMillis));
     }
 
     public int getSize() {
         return size;
-    }
-
-    private String formatTime(long millis) {
-        final HashMap<TimeUnit, Integer> timeUnits = getTimeUnits(millis);
-        final int minutes = timeUnits.get(TimeUnit.MINUTES);
-        final int seconds = timeUnits.get(TimeUnit.SECONDS);
-        return String.format("%02d:%02d", minutes, seconds);
-    }
-
-    public static HashMap<TimeUnit, Integer> getTimeUnits(long milliseconds) {
-        HashMap<TimeUnit, Integer> values = new HashMap<>(2);
-        final long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
-        final long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds) - TimeUnit.MINUTES.toSeconds(minutes);
-        values.put(TimeUnit.MINUTES, (int) minutes);
-        values.put(TimeUnit.SECONDS, (int) seconds);
-        return values;
     }
 }

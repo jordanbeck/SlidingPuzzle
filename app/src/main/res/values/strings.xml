@@ -4,7 +4,7 @@
     <string name="msg_congratulations">Congratulations!</string>
     <string name="msg_move_count">Moves: %1$d</string>
     <string name="msg_move_count_default">No moves</string>
-    <string name="msg_success_stats">3 moves \u2022 00:14</string>
+    <string name="msg_success_stats">%1$d moves \u2022 %2$s</string>
 
     <!-- Labels -->
     <string name="label_difficulty_2">Easy</string>

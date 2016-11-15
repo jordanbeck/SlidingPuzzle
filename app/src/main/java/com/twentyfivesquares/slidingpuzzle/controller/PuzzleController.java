@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.twentyfivesquares.slidingpuzzle.R;
 import com.twentyfivesquares.slidingpuzzle.object.Record;
 import com.twentyfivesquares.slidingpuzzle.store.PuzzleStore;
+import com.twentyfivesquares.slidingpuzzle.util.DateUtils;
 import com.twentyfivesquares.slidingpuzzle.util.RecordUtils;
 import com.twentyfivesquares.slidingpuzzle.view.PuzzleView;
 
@@ -33,6 +34,7 @@ public class PuzzleController extends TinyController {
     @Bind(R.id.puzzle_star_close_left) View vStarCloseLeft;
     @Bind(R.id.puzzle_star_far_right) View vStarFarRight;
     @Bind(R.id.puzzle_star_close_right) View vStarCloseRight;
+    @Bind(R.id.puzzle_success_stats) TextView vStats;
 
     private PuzzleStore store;
 
@@ -89,10 +91,11 @@ public class PuzzleController extends TinyController {
         // Save the record
         RecordUtils.updateRecord(getContext(), store.getSize(), record);
 
-        animateSolved();
-    }
+        // Set the stats on the success screen
+        final String stats = getContext().getString(
+                R.string.msg_success_stats, store.getMoveCount(), DateUtils.formatTime(store.getDuration()));
+        vStats.setText(stats);
 
-    private void animateSolved() {
         /**
          * Animation playlist:
          *  - Fade in the success background

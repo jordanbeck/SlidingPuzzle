@@ -109,11 +109,11 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/puzzle_success_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/generic_medium"
-                android:paddingBottom="@dimen/generic_medium"
-                android:text="@string/msg_success_stats"/>
+                android:paddingBottom="@dimen/generic_medium"/>
 
             <Button
                 android:layout_width="match_parent"

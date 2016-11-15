@@ -34,7 +34,7 @@ public class PuzzleView extends ViewGroup {
         void onMoveFinished();
     }
 
-    private final int SIZE = 3;
+    private final int SIZE = 5;
     private final int ANIM_DURATION = 250;
     private final int ANIM_DURATION_SLOW = 350;
     private final int ANIM_PAUSE = 350;
@@ -98,7 +98,7 @@ public class PuzzleView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int width = MeasureSpec.getSize(widthMeasureSpec);
-        final int childSpec = MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.EXACTLY);
+        final int childSpec = MeasureSpec.makeMeasureSpec(width / SIZE, MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
             child.measure(childSpec, childSpec);
@@ -115,7 +115,7 @@ public class PuzzleView extends ViewGroup {
         int left = 0;
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
-            if (i != 0 && i % 3 == 0) {
+            if (i != 0 && i % SIZE == 0) {
                 top += child.getMeasuredHeight();
                 left = 0;
             }
@@ -157,7 +157,7 @@ public class PuzzleView extends ViewGroup {
                 } else {
                     try {
                         // Add a slight pause
-                        Thread.sleep(350);
+                        Thread.sleep(ANIM_PAUSE);
                         nextMove();
                     } catch (InterruptedException e) {
                         e.printStackTrace();

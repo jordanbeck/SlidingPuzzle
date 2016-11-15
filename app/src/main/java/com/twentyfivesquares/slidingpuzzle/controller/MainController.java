@@ -1,10 +1,8 @@
 package com.twentyfivesquares.slidingpuzzle.controller;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.twentyfivesquares.slidingpuzzle.PuzzleActivity;
 import com.twentyfivesquares.slidingpuzzle.R;
@@ -15,24 +13,33 @@ import butterknife.ButterKnife;
 
 public class MainController extends TinyController {
 
-    @Bind(R.id.main_container) ViewGroup vContainer;
+    // TODO: This solution is not scalable, but I'm having a hard time getting the UI I want programmatically.
+    // Switch to a RecyclerView with grid adapter.
+    @Bind(R.id.main_select_puzzle_2) SelectPuzzleView vPuzzle2;
+    @Bind(R.id.main_select_puzzle_3) SelectPuzzleView vPuzzle3;
+    @Bind(R.id.main_select_puzzle_4) SelectPuzzleView vPuzzle4;
+    @Bind(R.id.main_select_puzzle_5) SelectPuzzleView vPuzzle5;
+
+    private View.OnClickListener selectPuzzleClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (!(view instanceof SelectPuzzleView)) {
+                throw new IllegalStateException("This OnClickListener can not be used on other views.");
+            }
+
+            puzzleSelected(((SelectPuzzleView) view).getSize());
+        }
+    };
 
     public MainController(Context context) {
         super(context);
 
         ButterKnife.bind(this, getView());
 
-        // Add boards from 2x2 tpo 5x5
-        for (int i = 2; i <= 5; i++) {
-            SelectPuzzleView vSelectPuzzle = new SelectPuzzleView(context, i);
-            vSelectPuzzle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    puzzleSelected(((SelectPuzzleView) view).getSize());
-                }
-            });
-            vContainer.addView(vSelectPuzzle);
-        }
+        vPuzzle2.setOnClickListener(selectPuzzleClickListener);
+        vPuzzle3.setOnClickListener(selectPuzzleClickListener);
+        vPuzzle4.setOnClickListener(selectPuzzleClickListener);
+        vPuzzle5.setOnClickListener(selectPuzzleClickListener);
     }
 
     @Override

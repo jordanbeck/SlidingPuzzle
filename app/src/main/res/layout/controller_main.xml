@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
+            android:id="@+id/main_select_puzzle_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            app:selectPuzzleSize="2"
+            app:selectPuzzleDifficulty="@string/label_difficulty_2"
+            app:selectPuzzleBackground="@color/difficultyEasy"/>
+
+        <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
+            android:id="@+id/main_select_puzzle_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            app:selectPuzzleSize="3"
+            app:selectPuzzleDifficulty="@string/label_difficulty_3"
+            app:selectPuzzleBackground="@color/difficultyMedium"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
+            android:id="@+id/main_select_puzzle_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            app:selectPuzzleSize="4"
+            app:selectPuzzleDifficulty="@string/label_difficulty_4"
+            app:selectPuzzleBackground="@color/difficultyHard"/>
+
+        <com.twentyfivesquares.slidingpuzzle.view.SelectPuzzleView
+            android:id="@+id/main_select_puzzle_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            app:selectPuzzleSize="5"
+            app:selectPuzzleDifficulty="@string/label_difficulty_5"
+            app:selectPuzzleBackground="@color/difficultyInsane"/>
+
+    </LinearLayout>
+
+</LinearLayout>

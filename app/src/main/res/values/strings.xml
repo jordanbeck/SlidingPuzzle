@@ -4,6 +4,13 @@
     <string name="msg_congratulations">Congratulations!</string>
     <string name="msg_move_count">Moves: %1$d</string>
     <string name="msg_move_count_default">No moves</string>
+
+    <!-- Labels -->
+    <string name="label_difficulty_2">Easy</string>
+    <string name="label_difficulty_3">Medium</string>
+    <string name="label_difficulty_4">Hard</string>
+    <string name="label_difficulty_5">Insane</string>
+
     <!-- Buttons -->
     <string name="button_hint">Hint</string>
     <string name="button_solve">I give up!</string>

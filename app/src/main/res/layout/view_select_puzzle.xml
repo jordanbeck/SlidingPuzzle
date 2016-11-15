@@ -5,12 +5,88 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/generic_medium"
     android:gravity="center"
-    android:padding="@dimen/generic_medium"
-    android:background="@android:color/darker_gray">
+    android:padding="@dimen/generic_medium">
 
     <TextView
         android:id="@+id/select_puzzle_size"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/AppTheme.TextAppearance.SizeLabel"/>
+
+    <TextView
+        android:id="@+id/select_puzzle_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/AppTheme.TextAppearance.Difficulty" />
+    
+    <View
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="@dimen/generic_medium"
+        android:layout_marginBottom="@dimen/generic_medium"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:paddingRight="@dimen/generic_xsmall"
+            android:gravity="right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="Total Wins:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="Best Moves:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="Best Time:"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:paddingLeft="@dimen/generic_xsmall"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="12"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="9"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/AppTheme.TextAppearance.Stat"
+                android:text="01:27"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

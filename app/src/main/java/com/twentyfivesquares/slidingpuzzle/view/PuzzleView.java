@@ -16,7 +16,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twentyfivesquares.slidingpuzzle.R;
 import com.twentyfivesquares.slidingpuzzle.object.PuzzlePoint;
@@ -27,6 +26,7 @@ import java.util.Map;
 public class PuzzleView extends ViewGroup {
 
     public interface PuzzleViewListener {
+        void onMoveCompleted(int totalMoves);
         void onSolved();
     }
 
@@ -88,13 +88,16 @@ public class PuzzleView extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        final int spec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() / 3, MeasureSpec.EXACTLY);
+        final int width = MeasureSpec.getSize(widthMeasureSpec);
+        final int childSpec = MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
-            child.measure(spec, spec);
+            child.measure(childSpec, childSpec);
         }
+
+        // Overwrite the height to match the width
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -114,6 +117,24 @@ public class PuzzleView extends ViewGroup {
 
     public void setPuzzleListener(PuzzleViewListener listener) {
         this.listener = listener;
+    }
+
+    public void showHint() {
+        final PuzzlePoint hintPoint = store.getSolution().peek();
+
+        // TODO: Come up with better way to get PuzzleView based off of PuzzlePoint
+        for (int i = 0, size = getChildCount(); i < size; i++) {
+            final View child = getChildAt(i);
+            if (child instanceof TileView) {
+                final TileView tileView = (TileView) child;
+                if (tileView.getPosition().equals(hintPoint)) {
+                    ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(tileView, "alpha", 0.5f, 1.0f);
+                    alphaAnim.setDuration(350);
+                    alphaAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                    alphaAnim.start();
+                }
+            }
+        }
     }
 
     private void moveTile(TileView tileView) {
@@ -201,6 +222,10 @@ public class PuzzleView extends ViewGroup {
         final PuzzlePoint oldEmptyPoint = store.getEmptyPoint();
         store.move(tileView.position);
         tileView.setPosition(oldEmptyPoint);
+
+        if (listener != null) {
+            listener.onMoveCompleted(store.getMoveCount());
+        }
 
         if (store.isSolved()) {
             // Re-lock the board

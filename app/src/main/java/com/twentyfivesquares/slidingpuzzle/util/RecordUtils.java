@@ -29,7 +29,7 @@ public class RecordUtils {
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Record>>(){}.getType();
+        Type type = new TypeToken<Map<Integer, Record>>(){}.getType();
         return gson.fromJson(recordsJson, type);
     }
 
@@ -41,8 +41,12 @@ public class RecordUtils {
 
     public static void saveRecords(Context context, Map<Integer, Record> records) {
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Record>>(){}.getType();
+        Type type = new TypeToken<Map<Integer, Record>>(){}.getType();
         String recordsJson = gson.toJson(records, type);
         PreferenceUtils.savePreferenceString(context, PREFS_NAME, PREFS_RECORDS, recordsJson);
+    }
+
+    public static void clearRecords(Context context) {
+        PreferenceUtils.savePreferenceString(context, PREFS_NAME, PREFS_RECORDS, null);
     }
 }

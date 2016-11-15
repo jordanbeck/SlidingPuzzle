@@ -38,21 +38,25 @@ public class MainController extends TinyController {
         ButterKnife.bind(this, getView());
 
         vPuzzle2.setOnClickListener(selectPuzzleClickListener);
-        vPuzzle2.setRecord(RecordUtils.fetchRecord(context, 2));
-
         vPuzzle3.setOnClickListener(selectPuzzleClickListener);
-        vPuzzle3.setRecord(RecordUtils.fetchRecord(context, 3));
-
         vPuzzle4.setOnClickListener(selectPuzzleClickListener);
-        vPuzzle4.setRecord(RecordUtils.fetchRecord(context, 4));
-
         vPuzzle5.setOnClickListener(selectPuzzleClickListener);
-        vPuzzle5.setRecord(RecordUtils.fetchRecord(context, 5));
     }
 
     @Override
     protected int getLayoutRes() {
         return R.layout.controller_main;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // TODO: Make this dynamically respond to changes in the record
+        vPuzzle2.setRecord(RecordUtils.fetchRecord(getContext(), 2));
+        vPuzzle3.setRecord(RecordUtils.fetchRecord(getContext(), 3));
+        vPuzzle4.setRecord(RecordUtils.fetchRecord(getContext(), 4));
+        vPuzzle5.setRecord(RecordUtils.fetchRecord(getContext(), 5));
     }
 
     private void puzzleSelected(int size) {

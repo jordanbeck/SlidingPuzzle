@@ -13,10 +13,10 @@ public class PuzzleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final PuzzleController controller = new PuzzleController(this);
-        if (getIntent().hasExtra(EXTRA_PUZZLE_SIZE)) {
-            controller.setPuzzleSize(getIntent().getIntExtra(EXTRA_PUZZLE_SIZE, PuzzleController.DEFAULT_SIZE));
-        }
+        final int size = getIntent().hasExtra(EXTRA_PUZZLE_SIZE) ?
+                getIntent().getIntExtra(EXTRA_PUZZLE_SIZE, PuzzleController.DEFAULT_SIZE) :
+                PuzzleController.DEFAULT_SIZE;
+        final PuzzleController controller = new PuzzleController(this, size);
         setContentView(controller.getView());
     }
 }

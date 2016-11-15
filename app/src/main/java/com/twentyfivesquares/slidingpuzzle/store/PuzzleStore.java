@@ -13,6 +13,8 @@ public class PuzzleStore {
 
     private int size;
     private int moveCount;
+    private long startTime;
+    private long endTime;
     private PuzzlePoint emptyPoint;
     private Map<PuzzlePoint, Integer> puzzleMap;
     private Stack<PuzzlePoint> solution;
@@ -42,7 +44,13 @@ public class PuzzleStore {
         this.emptyPoint = emptyPoint;
         this.solution = new Stack<>();
         this.moveCount = 0;
+        this.startTime = -1;
+        this.endTime = 0;
         initMap();
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public PuzzlePoint getEmptyPoint() {
@@ -71,6 +79,10 @@ public class PuzzleStore {
         return moveCount;
     }
 
+    public long getDuration() {
+        return endTime - startTime;
+    }
+
     /**
      * Tells whether or not the selected point is able to move. It will not actually move the tile there.
      *
@@ -91,6 +103,12 @@ public class PuzzleStore {
         if (!canMove(puzzlePoint)) {
             return false;
         }
+
+        // If this is the first move, get the timestamp
+        if (startTime < 0) {
+            startTime = System.currentTimeMillis();
+        }
+
         processMove(puzzlePoint);
         moveCount++;
         return true;
@@ -117,6 +135,9 @@ public class PuzzleStore {
                 count++;
             }
         }
+
+        // Timestamp when the puzzle was solved
+        endTime = System.currentTimeMillis();
 
         return true;
     }

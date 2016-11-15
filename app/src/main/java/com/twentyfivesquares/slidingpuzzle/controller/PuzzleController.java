@@ -7,6 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twentyfivesquares.slidingpuzzle.R;
+import com.twentyfivesquares.slidingpuzzle.object.Record;
+import com.twentyfivesquares.slidingpuzzle.store.PuzzleStore;
+import com.twentyfivesquares.slidingpuzzle.util.RecordUtils;
 import com.twentyfivesquares.slidingpuzzle.view.PuzzleView;
 
 import butterknife.Bind;
@@ -21,7 +24,9 @@ public class PuzzleController extends TinyController {
     @Bind(R.id.puzzle_solve_button) Button vSolveButton;
     @Bind(R.id.puzzle_move_count) TextView vMoveCount;
 
-    public PuzzleController(Context context) {
+    private PuzzleStore store;
+
+    public PuzzleController(Context context, int size) {
         super(context);
         ButterKnife.bind(this, getView());
 
@@ -39,6 +44,9 @@ public class PuzzleController extends TinyController {
             }
         });
 
+        store = new PuzzleStore(size);
+        store.shufflePuzzle(store.getSize() * store.getSize());
+        vPuzzle.initialize(store);
         vPuzzle.setPuzzleListener(new PuzzleView.PuzzleViewListener() {
             @Override
             public void onMoveCompleted(int totalMoves) {
@@ -47,7 +55,7 @@ public class PuzzleController extends TinyController {
 
             @Override
             public void onSolved() {
-                Toast.makeText(getContext(), R.string.msg_congratulations, Toast.LENGTH_SHORT).show();
+                puzzleSolved();
             }
         });
     }
@@ -57,7 +65,20 @@ public class PuzzleController extends TinyController {
         return R.layout.controller_puzzle;
     }
 
-    public void setPuzzleSize(int puzzleSize) {
-        vPuzzle.updateSize(puzzleSize);
+    private void puzzleSolved() {
+        Toast.makeText(getContext(), R.string.msg_congratulations, Toast.LENGTH_SHORT).show();
+
+        // Update the records with new information
+        Record record = RecordUtils.fetchRecord(getContext(), store.getSize());
+        record.totalWins += 1;
+        if (record.leastMoves == 0 || store.getMoveCount() < record.leastMoves) {
+            record.leastMoves = store.getMoveCount();
+        }
+        if (record.bestTimeMillis == 0 || store.getDuration() < record.bestTimeMillis) {
+            record.bestTimeMillis = store.getDuration();
+        }
+
+        // Save the record
+        RecordUtils.updateRecord(getContext(), store.getSize(), record);
     }
 }

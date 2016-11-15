@@ -34,12 +34,10 @@ public class PuzzleView extends ViewGroup {
         void onMoveFinished();
     }
 
-    private final int DEFAULT_SIZE = 4;
     private final int ANIM_DURATION = 250;
     private final int ANIM_DURATION_SLOW = 350;
     private final int ANIM_PAUSE = 350;
 
-    private int size = DEFAULT_SIZE;
     private PuzzleStore store;
     private PuzzleViewListener listener;
     private boolean locked;
@@ -62,40 +60,10 @@ public class PuzzleView extends ViewGroup {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init(Context context) {
-        locked = false;
-        solving = false;
-
-        store = new PuzzleStore(size);
-        store.shufflePuzzle(size * size);
-
-        final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                final PuzzlePoint position = new PuzzlePoint(x, y);
-                final Integer label = puzzleMap.get(position);
-                if (label == PuzzleStore.EMPTY) {
-                    addView(new EmptyView(context));
-                } else {
-                    final TileView tileView = new TileView(context, position);
-                    tileView.setLabel(label);
-                    tileView.setBackgroundResource(label % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
-                    tileView.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            moveTile((TileView) view);
-                        }
-                    });
-                    addView(tileView);
-                }
-            }
-        }
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int width = MeasureSpec.getSize(widthMeasureSpec);
-        final int childSpec = MeasureSpec.makeMeasureSpec(width / size, MeasureSpec.EXACTLY);
+        final int childSpec = MeasureSpec.makeMeasureSpec(width / store.getSize(), MeasureSpec.EXACTLY);
         for (int i = 0, size = getChildCount(); i < size; i++) {
             View child = getChildAt(i);
             child.measure(childSpec, childSpec);
@@ -112,7 +80,7 @@ public class PuzzleView extends ViewGroup {
         int left = 0;
         for (int i = 0, count = getChildCount(); i < count; i++) {
             View child = getChildAt(i);
-            if (i != 0 && i % size == 0) {
+            if (i != 0 && i % store.getSize() == 0) {
                 top += child.getMeasuredHeight();
                 left = 0;
             }
@@ -121,9 +89,30 @@ public class PuzzleView extends ViewGroup {
         }
     }
 
-    public void updateSize(int size) {
-        this.size = size;
-        init(getContext());
+    public void initialize(PuzzleStore store) {
+        this.store = store;
+
+        final Map<PuzzlePoint, Integer> puzzleMap = store.getPuzzleMap();
+        for (int y = 0; y < store.getSize(); y++) {
+            for (int x = 0; x < store.getSize(); x++) {
+                final PuzzlePoint position = new PuzzlePoint(x, y);
+                final Integer label = puzzleMap.get(position);
+                if (label == PuzzleStore.EMPTY) {
+                    addView(new EmptyView(getContext()));
+                } else {
+                    final TileView tileView = new TileView(getContext(), position);
+                    tileView.setLabel(label);
+                    tileView.setBackgroundResource(label % 2 == 0 ? R.color.colorAccent : R.color.colorAccentDark);
+                    tileView.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            moveTile((TileView) view);
+                        }
+                    });
+                    addView(tileView);
+                }
+            }
+        }
         invalidate();
     }
 

@@ -8,10 +8,19 @@ import com.twentyfivesquares.slidingpuzzle.controller.MainController;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainController controller;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final MainController controller = new MainController(this);
+
+        controller = new MainController(this);
         setContentView(controller.getView());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        controller.onResume();
     }
 }

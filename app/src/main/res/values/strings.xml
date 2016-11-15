@@ -4,6 +4,7 @@
     <string name="msg_congratulations">Congratulations!</string>
     <string name="msg_move_count">Moves: %1$d</string>
     <string name="msg_move_count_default">No moves</string>
+    <string name="msg_success_stats">3 moves \u2022 00:14</string>
 
     <!-- Labels -->
     <string name="label_difficulty_2">Easy</string>
@@ -14,4 +15,5 @@
     <!-- Buttons -->
     <string name="button_hint">Hint</string>
     <string name="button_solve">I give up!</string>
+    <string name="button_play_again">Play again</string>
 </resources>

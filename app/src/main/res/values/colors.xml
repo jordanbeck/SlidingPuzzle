@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Theme Colors -->
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D32F2F</color>
     <color name="colorAccent">#FFC107</color>
     <color name="colorAccentDark">#FFA000</color>
     <color name="colorAccentLight">#FFECB3</color>
+    <color name="lightGray">#DEDEDE</color>
+    <color name="semiTransparentDark">#89000000</color>
 
+    <!-- Font Colors -->
+    <color name="fontPrimary">#212121</color>
+    <color name="fontSecondary">#757575</color>
+
+    <!-- Colors used to denote difficulty -->
     <color name="difficultyEasy">#FFCA28</color>
     <color name="difficultyMedium">#FFC107</color>
     <color name="difficultyHard">#FFB300</color>
     <color name="difficultyInsane">#FFA000</color>
-
-    <color name="lightGray">#DEDEDE</color>
-
-    <color name="fontPrimary">#212121</color>
-    <color name="fontSecondary">#757575</color>
 </resources>

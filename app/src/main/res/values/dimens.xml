@@ -5,4 +5,7 @@
     <dimen name="generic_medium">16dp</dimen>
     <dimen name="generic_large">32dp</dimen>
     <dimen name="generic_xlarge">72dp</dimen>
+
+    <dimen name="star_small">20dp</dimen>
+    <dimen name="star_large">26dp</dimen>
 </resources>

@@ -14,10 +14,10 @@ import butterknife.ButterKnife;
 
 public class PuzzleController extends TinyController {
 
-    @Bind(R.id.main_puzzle) PuzzleView vPuzzle;
-    @Bind(R.id.main_hint_button) Button vHintButton;
-    @Bind(R.id.main_solve_button) Button vSolveButton;
-    @Bind(R.id.main_move_count) TextView vMoveCount;
+    @Bind(R.id.puzzle_puzzle) PuzzleView vPuzzle;
+    @Bind(R.id.puzzle_hint_button) Button vHintButton;
+    @Bind(R.id.puzzle_solve_button) Button vSolveButton;
+    @Bind(R.id.puzzle_move_count) TextView vMoveCount;
 
     public PuzzleController(Context context) {
         super(context);
@@ -52,6 +52,6 @@ public class PuzzleController extends TinyController {
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.controller_main;
+        return R.layout.controller_puzzle;
     }
 }
